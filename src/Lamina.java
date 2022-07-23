@@ -1,49 +1,43 @@
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.border.TitledBorder;
-
+import java.util.Date;
+import javax.swing.*;
 
 public class Lamina extends JPanel{
 	
 	private GridLayout gridLayout;
-	private JPanel jPanel;
-	
-	private int contador;
+	private JPanel jPanel, jPanelDisplay;
 	
 	private ButtonGroup buttonGroup1 = new ButtonGroup();
 	private ButtonGroup buttonGroup2 = new ButtonGroup();
-
 	private ButtonGroup buttonGroup3 = new ButtonGroup();
 	private ButtonGroup buttonGroup4 = new ButtonGroup();
-
 	private ButtonGroup buttonGroup5 = new ButtonGroup();
 	private ButtonGroup buttonGroup6 = new ButtonGroup();
 	
 	private ButtonGroup [] arrayGrupoBotones = new ButtonGroup[6];
 	
+	private Object [] object;
+	private Object [] eleccion;
+	private String [] arrayCadenas = {"Amarillo", "Azul", "Rojo"};
+	private String [] valoresInput;
+	private ImageIcon [] arrayIconos = {new ImageIcon("blue.png"), new ImageIcon("yellow.png"), new ImageIcon("red.png")};
 	
+	private String cadena;
+	private int contador;
+	
+	private ImageIcon icono;
+	
+	private Date date;
+
 	public Lamina() {
 				
 		String [] opciones1 = {"Tipo","Message","Input","Confirm","Option"};
 		String [] opciones2 = {"Tipo de mensaje","ERROR_MESSAGE","INFORMATION_MESSAGE","WARNING_MESSAGE","QUESTION_MESSAGE","PLAIN_MESSAGE"};
 		String [] opciones3 = {"Mensaje","Cadena","Icono","Componente","Otros","Object[]"};
 		String [] opciones4 = {"Confirmar","DEFAULT_OPTION","YES_NO_OPTION","YES_NO_CANCEL_OPTION","OK_CANCEL_OPTION"};
-		String [] opciones5 = {"Opcion","String[]","Icon[]","Object[]"};
+		String [] opciones5 = {"Opcion","String[]","Icon[]","Objects[]"};
 		String [] opciones6 = {"Entrada","Campo de texto","Combo"};
 				
 		arrayGrupoBotones[0] = buttonGroup1;
@@ -56,13 +50,32 @@ public class Lamina extends JPanel{
 		setLayout(new BorderLayout());
 		
 		contador = 0;
+		
+		cadena = "HOLA ESTE ES EL MENSAJE";
+		
+		icono = new ImageIcon("blue.png", null);
+		
+		date = new Date();
+		
+		object = new Object[4];
+		
+		valoresInput = null;
+				
+		jPanelDisplay = new JPanel();
+		
+		jPanelDisplay.setBackground(Color.blue);
+		
+		object[0] = cadena;
+		object[1] = icono;
+		object[2] = jPanelDisplay;
+		object[3] = date;
 			
 		JButton jButton = new JButton("Aceptar");	
 		
 		jButton.addActionListener(new CrearVentana());
 		
 		JPanel jPanelButton = new JPanel();
-		
+
 		jPanelButton.add(jButton);
 		
 		gridLayout = new GridLayout(2,3);
@@ -118,7 +131,7 @@ public class Lamina extends JPanel{
 		
 		int opcion = 0;
 		int tipo_mensaje = 0;
-		int mensaje = 0;
+		Object mensaje = null;
 		int tipo_ventana = 0;
 		
 		
@@ -170,7 +183,39 @@ public class Lamina extends JPanel{
 								case "OK_CANCEL_OPTION":
 									tipo_ventana = 2;
 									break;
-													
+											
+								case "Cadena":
+									mensaje = cadena;
+									break;
+								case "Icono":
+									mensaje = icono;
+									break;
+								case "Componente":
+									mensaje = jPanelDisplay;
+									break;
+								case "Otros":
+									mensaje = date;
+									break;
+								case "Object[]":																		
+									mensaje = object;
+									break;
+									
+								case "String[]":
+									eleccion = arrayCadenas;
+									break;
+								case "Icon[]":
+									eleccion = arrayIconos;
+									break;
+								case "Objects[]":
+									eleccion = object;
+									break;
+									
+								case "Campo de texto":									
+									valoresInput = null;									
+									break;									
+								case "Combo":									
+									valoresInput = arrayCadenas;							
+									break;
 						}					
 					
 				}
@@ -181,23 +226,20 @@ public class Lamina extends JPanel{
 				
 				case 1:
 					JOptionPane.showMessageDialog
-					(jPanel, "", "MessageDialog", tipo_mensaje);
-		
+					(jPanel, mensaje, "MessageDialog", tipo_mensaje);	
 					break;
 				case 2:
+					
 					JOptionPane.showInputDialog
-					(jPanel, "", null, tipo_mensaje);
-		
+					(jPanel, mensaje, "InputDialog", tipo_mensaje, null, valoresInput, null);
 					break;
 				case 3:
 					JOptionPane.showConfirmDialog
-					(jPanel, "", "ConfirmDialog", tipo_ventana, tipo_mensaje);
-		
+					(jPanel, mensaje, "ConfirmDialog", tipo_ventana, tipo_mensaje);
 					break;
 				case 4:
 					JOptionPane.showOptionDialog
-					(jPanel, "", "", tipo_ventana, tipo_mensaje, null, null, null);
-		
+					(jPanel, mensaje, "OptionDialog", tipo_ventana, tipo_mensaje, null, eleccion, null);
 					break;
 		
 			}
@@ -209,9 +251,7 @@ public class Lamina extends JPanel{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			
 			comprobar();
-		
 		}
 		
 	}
