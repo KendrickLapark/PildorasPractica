@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.Date;
 import javax.swing.*;
 
@@ -52,6 +53,14 @@ public class Lamina extends JPanel{
 		contador = 0;
 		
 		cadena = "HOLA ESTE ES EL MENSAJE";
+		
+		/*Usar esta declaración de icono para exporatar archivo jar ejecutable y funcione el icono, sino no lo muestra, para 
+		 * ejecutar en Eclipse dejar la declaración de icono como está.
+		*/		
+		
+		/*URL ruta = Lamina.class.getResource("blue.png");
+		
+		icono = new ImageIcon(ruta, null); */
 		
 		icono = new ImageIcon("blue.png", null);
 		
